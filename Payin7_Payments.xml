@@ -1,0 +1,11 @@
+<config>
+    <modules>
+        <Payin7_Payments>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                <Mage_Payment/>
+            </depends>
+        </Payin7_Payments>
+    </modules>
+</config>

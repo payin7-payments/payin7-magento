@@ -1,0 +1,29 @@
+<?php
+
+$_code = $this->getMethodCode();
+
+/** @var Payin7_Payments_Helper_Data $phelper */
+$phelper = Mage::helper('payin7payments');
+
+/** @var Payin7_Payments_Block_Form_Payin7 $block */
+$block = $this;
+
+/** @var Payin7_Payments_Model_Payin7daysPaymentMethod $method */
+$method = $block->getData('method');
+$remote_method_code = $method->getRemoteApiPaymentMethodCode();
+
+/** @var Payin7_Payments_Model_Remote_Platform_Config $remote_platform_config */
+$remote_platform_config = Mage::getModel('payin7payments/remote_platform_config');
+$remote_platform_config->loadData();
+
+$payment_method_config = $remote_platform_config->getPaymentMethodConfig($remote_method_code);
+$checkout_content = isset($payment_method_config['checkout_content']) ? $payment_method_config['checkout_content'] : null;
+
+?>
+<div id="payment_form_<?php echo $_code ?>" style="display: none">
+    <?php if ($checkout_content) { ?>
+        <div class="payin7-checkout-content" data-code="<?php echo $block->escapeHtml($remote_method_code); ?>">
+            <?php echo $checkout_content; ?>
+        </div>
+    <?php } ?>
+</div>

@@ -1,0 +1,22 @@
+<?php
+
+/** @var Payin7_Payments_Helper_Data $phelper */
+$phelper = Mage::helper('payin7payments');
+
+/** @var Payin7_Payments_Block_Order_Final $block */
+$block = $this;
+$order = $block->getOrder();
+$order_identifier = $order->getData('payin7_order_identifier');
+
+?>
+<h3><?php echo __('Your order has been accepted. Thank you!'); ?></h3>
+<p><?php echo __('You should receive an email containing details of it in the next minutes.'); ?></p>
+<p><?php echo __('Should you have any questions please use the Contact us page of the store.'); ?></p>
+
+<!-- Payin7 -->
+<script>
+    //<![CDATA[
+    Payin7SDK('orderSuccess', <?php echo json_encode($order_identifier); ?>);
+    //]]>
+</script>
+<!-- End Payin7 -->

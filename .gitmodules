@@ -1,0 +1,3 @@
+[submodule "lib/payin7-php"]
+	path = lib/payin7-php
+	url = https://github.com/payin7-payments/payin7-php.git

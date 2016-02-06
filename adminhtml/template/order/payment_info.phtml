@@ -1,0 +1,26 @@
+<?php
+
+/** @var Payin7_Payments_Block_Adminhtml_Sales_Order_Payin7_Info $me */
+$me = $this;
+
+$order = $me->getOrder();
+$submitted = $order->getData('payin7_order_sent');
+$customer_completed = $order->getData('payin7_order_accepted');
+$identifier = $order->getData('payin7_order_identifier');
+$sandbox_order = $order->getData('payin7_sandbox_order');
+
+/** @var Payin7_Payments_Helper_Data $phelper */
+$phelper = Mage::helper('payin7payments');
+
+$view_order_url = $phelper->getBackendViewOrderUrl($order);
+
+?>
+<div class="payin7 order-info">
+    <div><?php echo $this->__('Order Type:'); ?><?php echo($sandbox_order ? __('SANDBOX') : __('LIVE')); ?></div>
+    <div><?php echo $this->__('Submitted to Payin7:'); ?><?php echo($submitted ? __('YES') : __('NO')); ?></div>
+    <div><?php echo $this->__('Completed by Customer:'); ?><?php echo($customer_completed ? __('YES') : __('NO')); ?></div>
+    <div><?php echo $this->__('Payin7 Order Identifier:'); ?><?php echo($identifier ? $identifier : '-'); ?></div>
+    <?php if ($view_order_url) { ?>
+        <div><a href="<?php echo $view_order_url; ?>" target="_blank"><?php echo $this->__('Open in Payin7'); ?></a>
+        </div><?php } ?>
+</div>

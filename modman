@@ -1,0 +1,13 @@
+# Payin7_Payments module
+code                  	app/code/community/Payin7/Payments/
+frontend/layout/*     	app/design/frontend/base/default/layout/
+frontend/skin/js/*	skin/frontend/base/default/js/payin7/
+frontend/skin/css/*	skin/frontend/base/default/css/payin7/
+frontend/skin/images/*	skin/frontend/base/default/images/payin7/
+frontend/template/*    app/design/frontend/base/default/template/payin7payments/
+adminhtml/layout/*     	app/design/adminhtml/default/default/layout/
+adminhtml/template/*    app/design/adminhtml/default/default/template/payin7payments/
+adminhtml/skin/css/*	skin/adminhtml/default/default/css/payin7/
+lib/*			lib/Payin7/
+locale/*		app/locale/
+Payin7_Payments.xml    app/etc/modules/Payin7_Payments.xml

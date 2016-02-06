@@ -1,0 +1,35 @@
+<?php
+
+/** @var Payin7_Payments_Helper_Data $phelper */
+$phelper = Mage::helper('payin7payments');
+
+/** @var Payin7_Payments_Block_Order_Final $block */
+$block = $this;
+$order = $block->getOrder();
+
+$is_secure = Mage::app()->getStore()->isCurrentlySecure();
+$is_secure = $is_secure ? true : null;
+
+$order_data = array(
+    'orderId' => $order->getData('payin7_order_identifier'),
+    'orderUrl' => $phelper->getFrontendOrderCompleteUrl($order, $is_secure),
+    'cancelUrl' => Mage::getUrl('payin7/order/cancel', array('_secure' => true)),
+    'completeUrl' => Mage::getUrl('payin7/order/complete', array('_secure' => true)),
+    'isCheckout' => true
+);
+
+?>
+<script>
+    //<![CDATA[
+    jQuery(document).ready(function () {
+        Payin7Payments.initialize(<?php echo json_encode($phelper->getJsConfig()); ?>);
+        Payin7Payments.finalizeOrder(<?php echo json_encode($order_data); ?>, {
+            dialog: {
+                animated: false,
+                confirmCloseCancel: true,
+                cancelOnMaskClick: false
+            }
+        });
+    });
+    //]]>
+</script>

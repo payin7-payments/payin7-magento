@@ -1,0 +1,44 @@
+<?php
+
+/** @var Payin7_Payments_Helper_Data $phelper */
+$phelper = Mage::helper('payin7payments');
+
+/** @var Payin7_Payments_Block_Order_Final $block */
+$block = $this;
+$order = $block->getOrder();
+
+/** @var Payin7_Payments_Model_Payin7daysPaymentMethod $payment_method */
+$payment = $order->getPayment();
+
+$is_payin7_order = false;
+$is_payin7_order_complete = true;
+$order_completion_data = null;
+$order_id = null;
+
+if ($payment) {
+    $payment_method = $payment->getMethodInstance();
+    $payment_method_code = $payment_method->getCode();
+
+    if ($phelper->getIsPayin7PaymentMethod($payment_method_code)) {
+        $is_payin7_order = true;
+
+        if (!$order->getData('payin7_order_accepted')) {
+            $is_payin7_order_complete = false;
+            $order_id = $order->getData('payin7_order_identifier');
+        }
+    }
+}
+
+?>
+<?php if ($is_payin7_order && !$is_payin7_order_complete) { ?>
+    <script>
+        //<![CDATA[
+        jQuery(document).ready(function ($) {
+            Payin7Payments.initialize(<?php echo json_encode($phelper->getJsConfig()); ?>);
+        });
+        //]]>
+    </script><span class="separator">|</span> <a href="#" data-order-id="<?php echo $order_id; ?>"
+                                                 class="link-finalize-payin7-order blink"><?php echo $this->__('Finalize PAYIN7 Operation') ?></a>
+    <div
+        class="payin7-uncomplete-notice"><?php echo $this->__('This order has not been fully completed yet. Please click on Finalize PAYIN7 Operation to complete it.'); ?></div>
+<?php } ?>
