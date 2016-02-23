@@ -1,0 +1,181 @@
+<_>
+   <form_key>zO9WB3rikSDYdsw3</form_key>
+   <name>Payin7_Payments</name>
+   <channel>community</channel>
+   <version_ids>
+      <version_ids>2</version_ids>
+   </version_ids>
+   <summary>The official magento plugin of the Payin7 payments service gateway (http://www.payin7.com)</summary>
+   <description>Payin7 discovers to your clients the possibility of delaying payment 7 days so they can check their purchase before they pay it or to finance their purchases in easy installments.
+
+If you are a buyer you can effortlessly acquire what you want or even a better item than what you previusly want.
+
+If you are a store you will offer an attractive alternative payment to your customers so they have bigger margen to think about payment.</description>
+   <license>GNU General Public License (GPL)</license>
+   <license_uri>http://www.gnu.org/licenses/gpl-3.0.en.html</license_uri>
+   <version>1.0.0</version>
+   <stability>stable</stability>
+   <notes>First release of the extension.
+
+If you are not a customer yet but would like to become one email: info@payin7.com.
+
+Report bugs and issues to: support@payin7.com.</notes>
+   <authors>
+      <name>
+         <name>Payin7.com</name>
+         <name>Martin Kovachev</name>
+      </name>
+      <user>
+         <user>payin7</user>
+         <user>mkovachev</user>
+      </user>
+      <email>
+         <email>info@payin7.com</email>
+         <email>miracle@nimasystems.com</email>
+      </email>
+   </authors>
+   <depends_php_min>5.4.6</depends_php_min>
+   <depends_php_max>6.0.0</depends_php_max>
+   <depends>
+      <package>
+         <name>
+            <name/>
+            <name>Mage_Payment</name>
+         </name>
+         <channel>
+            <channel/>
+            <channel/>
+         </channel>
+         <min>
+            <min/>
+            <min/>
+         </min>
+         <max>
+            <max/>
+            <max/>
+         </max>
+         <files>
+            <files>          </files>
+            <files>          </files>
+         </files>
+      </package>
+      <extension>
+         <name>
+            <name>Core</name>
+         </name>
+         <min>
+            <min/>
+         </min>
+         <max>
+            <max/>
+         </max>
+      </extension>
+   </depends>
+   <contents>
+      <target>
+         <target>magelocal</target>
+         <target>magecommunity</target>
+         <target>magedesign</target>
+         <target>magedesign</target>
+         <target>magedesign</target>
+         <target>magedesign</target>
+         <target>mageetc</target>
+         <target>magelocale</target>
+         <target>magelocale</target>
+         <target>mageskin</target>
+         <target>mageskin</target>
+         <target>mageskin</target>
+         <target>mageskin</target>
+         <target>magelib</target>
+         <target>magelib</target>
+         <target>magelib</target>
+         <target>magelib</target>
+         <target>magelib</target>
+         <target>magelib</target>
+      </target>
+      <path>
+         <path/>
+         <path>Payin7</path>
+         <path>adminhtml/default/default/layout/payin7payments.xml</path>
+         <path>adminhtml/default/default/template/payin7payments</path>
+         <path>frontend/base/default/layout/payin7payments.xml</path>
+         <path>frontend/base/default/template/payin7payments</path>
+         <path>modules/Payin7_Payments.xml</path>
+         <path>en_US/Payin7_Payments.csv</path>
+         <path>es_ES/Payin7_Payments.csv</path>
+         <path>adminhtml/default/default/css/payin7</path>
+         <path>frontend/base/default/css/payin7</path>
+         <path>frontend/base/default/images/payin7</path>
+         <path>frontend/base/default/js/payin7</path>
+         <path>Payin7/payin7-php/CHANGELOG</path>
+         <path>Payin7/payin7-php/LICENSE</path>
+         <path>Payin7/payin7-php/README.md</path>
+         <path>Payin7/payin7-php/vendor</path>
+         <path>Payin7/payin7-php/src</path>
+         <path>Payin7/utils</path>
+      </path>
+      <type>
+         <type>file</type>
+         <type>dir</type>
+         <type>file</type>
+         <type>dir</type>
+         <type>file</type>
+         <type>dir</type>
+         <type>file</type>
+         <type>file</type>
+         <type>file</type>
+         <type>dir</type>
+         <type>dir</type>
+         <type>dir</type>
+         <type>dir</type>
+         <type>file</type>
+         <type>file</type>
+         <type>file</type>
+         <type>dir</type>
+         <type>dir</type>
+         <type>dir</type>
+      </type>
+      <include>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
+      </include>
+      <ignore>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+      </ignore>
+   </contents>
+</_>

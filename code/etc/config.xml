@@ -243,7 +243,6 @@
                 <active>1</active>
                 <model>payin7payments/payin7daysPaymentMethod</model>
                 <title>PAYIN7 / Pay in 7 days</title>
-                <sort_order>-15000</sort_order>
                 <payment_action>order</payment_action>
                 <order_status>payin7_pending</order_status>
             </payin7payment7days>
@@ -251,7 +250,6 @@
                 <active>1</active>
                 <title>PAYIN7 / Pay with monthly installments</title>
                 <model>payin7payments/monthlyInstallmentsPaymentMethod</model>
-                <sort_order>-15000</sort_order>
                 <payment_action>order</payment_action>
                 <order_status>payin7_pending</order_status>
             </payin7paymentinstallments>
