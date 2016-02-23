@@ -24,44 +24,26 @@
  * @license   http://opensource.org/licenses/GPL-3.0 GNU General Public License, version 3 (GPL-3.0)
  */
 
-class Payin7_Payments_Helper_Log extends Mage_Core_Helper_Abstract
+class Payin7_Payments_Block_Js_Bootstrap extends Mage_Core_Block_Template
 {
-    const MY_LOGFILE = 'payin7payments.log';
+    /** @var Payin7_Payments_Helper_Data */
+    protected $_helper;
 
-    public function logWarn($message = null)
+    public function _construct()
     {
-        Mage::log(
-            $message,
-            Zend_Log::WARN,
-            self::MY_LOGFILE
-        );
+        parent::_construct();
+        $this->setTemplate('payin7payments/js_bootstrap.phtml');
+
+        $this->_helper = Mage::helper('payin7payments');
     }
 
-    public function logError($message = null)
+    public function getJsConfig()
     {
-        Mage::log(
-            $message,
-            Zend_Log::ERR,
-            self::MY_LOGFILE
-        );
+        return $this->_helper->getJsConfig();
     }
 
-    public function logDebug($message = null)
+    public function getScriptSrc()
     {
-        Mage::log(
-            $message,
-            Zend_Log::DEBUG,
-            self::MY_LOGFILE
-        );
+        return $this->_helper->getJsApiUrl('/' . Payin7_Payments_Helper_Data::DEFAULT_JSAPI_FNAME);
     }
-
-    public function logInfo($message = null)
-    {
-        Mage::log(
-            $message,
-            Zend_Log::INFO,
-            self::MY_LOGFILE
-        );
-    }
-
 }

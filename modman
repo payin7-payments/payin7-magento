@@ -8,6 +8,7 @@ frontend/template/*    app/design/frontend/base/default/template/payin7payments/
 adminhtml/layout/*     	app/design/adminhtml/default/default/layout/
 adminhtml/template/*    app/design/adminhtml/default/default/template/payin7payments/
 adminhtml/skin/css/*	skin/adminhtml/default/default/css/payin7/
+adminhtml/skin/js/*	skin/adminhtml/default/default/js/payin7/
 lib/*			lib/Payin7/
 locale/*		app/locale/
 Payin7_Payments.xml    app/etc/modules/Payin7_Payments.xml

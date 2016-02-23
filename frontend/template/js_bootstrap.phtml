@@ -24,44 +24,17 @@
  * @license   http://opensource.org/licenses/GPL-3.0 GNU General Public License, version 3 (GPL-3.0)
  */
 
-class Payin7_Payments_Helper_Log extends Mage_Core_Helper_Abstract
-{
-    const MY_LOGFILE = 'payin7payments.log';
+/** @var Payin7_Payments_Block_Js_Bootstrap $block */
+$block = $this;
 
-    public function logWarn($message = null)
-    {
-        Mage::log(
-            $message,
-            Zend_Log::WARN,
-            self::MY_LOGFILE
-        );
-    }
-
-    public function logError($message = null)
-    {
-        Mage::log(
-            $message,
-            Zend_Log::ERR,
-            self::MY_LOGFILE
-        );
-    }
-
-    public function logDebug($message = null)
-    {
-        Mage::log(
-            $message,
-            Zend_Log::DEBUG,
-            self::MY_LOGFILE
-        );
-    }
-
-    public function logInfo($message = null)
-    {
-        Mage::log(
-            $message,
-            Zend_Log::INFO,
-            self::MY_LOGFILE
-        );
-    }
-
-}
+?><!-- Payin7 -->
+<script>
+    //<![CDATA[
+    (function(a,b,c,d,e,f,g){a['Payin7SDKObject']=e;a[e]=a[e]||function(){
+            (a[e].q=a[e].q||[]).push(arguments)};a[e].l=1*new Date();f=b.createElement(c);
+        g=b.getElementsByTagName(c)[0];f.async=1;f.src=d;g.parentNode.insertBefore(f,g)
+    })(window,document,'script',<?php echo json_encode($block->getScriptSrc()); ?>,'Payin7SDK');
+    Payin7SDK('init', <?php echo  json_encode($block->getJsConfig()); ?>);
+    //]]>
+</script>
+<!-- End Payin7 -->

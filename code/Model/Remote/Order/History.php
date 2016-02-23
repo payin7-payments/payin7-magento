@@ -1,4 +1,28 @@
 <?php
+/**
+ * 2015-2016 Copyright (C) Payin7 S.L.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * DISCLAIMER
+ *
+ * Do not modify this file if you wish to upgrade the Payin7 module automatically in the future.
+ *
+ * @author    Payin7 S.L. <info@payin7.com>
+ * @copyright 2015-2016 Payin7 S.L.
+ * @license   http://opensource.org/licenses/GPL-3.0 GNU General Public License, version 3 (GPL-3.0)
+ */
 
 use Guzzle\Http\Exception\ClientErrorResponseException;
 use Guzzle\Http\Exception\ServerErrorResponseException;
@@ -8,35 +32,6 @@ class Payin7_Payments_Model_Remote_Order_History extends Mage_Core_Model_Abstrac
     protected $_client_timeout;
 
     const MAX_CRON_ORDERS = 10;
-
-    /**
-     * @return array
-     */
-    protected function _prepareOrderData()
-    {
-        $data = array_filter(array(
-            'currency_code' => $this->_order->getOrderCurrencyCode(),
-            'shipping_method_code' => $this->_order->getShippingMethod(true)->getData('carrier_code'),
-            'shipping_method_title' => $this->_order->getShippingDescription(),
-            'created_on' => $this->_order->getCreatedAt(),
-            'updated_on' => $this->_order->getUpdatedAt(),
-            'state' => $this->_order->getState(),
-            'status' => $this->_order->getStatus(),
-            'is_gift' => ($this->_order->getGiftMessageId() != null),
-            'ref_quote_id' => $this->_order->getQuoteId(),
-            'order_subtotal_with_tax' => $this->_order->getSubtotalInclTax(),
-            'order_subtotal' => $this->_order->getSubtotal(),
-            'order_tax' => $this->_order->getTaxAmount(),
-            'order_hidden_tax' => $this->_order->getHiddenTaxAmount(),
-            'order_shipping_with_tax' => $this->_order->getShippingInclTax(),
-            'order_shipping' => $this->_order->getShippingAmount(),
-            'order_discount' => $this->_order->getDiscountAmount(),
-            'order_shipping_discount' => $this->_order->getShippingDiscountAmount(),
-            'order_total' => $this->_order->getGrandTotal(),
-            'order_total_items' => $this->_order->getTotalItemCount()
-        ));
-        return $data;
-    }
 
     public function sendPendingOrderHistory()
     {
@@ -71,6 +66,9 @@ class Payin7_Payments_Model_Remote_Order_History extends Mage_Core_Model_Abstrac
 
     protected function submit(Payin7_Payments_Model_Mysql4_Payin7orderhistory_Collection $data)
     {
+        /** @var Payin7_Payments_Helper_Data $phelper */
+        $phelper = Mage::helper('payin7payments');
+
         $data_out = array();
 
         /** @var Varien_Object $history_el */
@@ -101,6 +99,8 @@ class Payin7_Payments_Model_Remote_Order_History extends Mage_Core_Model_Abstrac
         ));
 
         if (!is_array($response) || !$response['success']) {
+            $phelper->getLogger()->logInfo('Remote history sending failed, data: ' . print_r($response, true));
+
             return false;
         }
 
