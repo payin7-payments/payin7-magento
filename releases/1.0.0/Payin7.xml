@@ -1,5 +1,5 @@
 <_>
-   <form_key>zO9WB3rikSDYdsw3</form_key>
+   <form_key>4SksLjDOS8es8tTH</form_key>
    <name>Payin7_Payments</name>
    <channel>community</channel>
    <version_ids>
@@ -55,8 +55,8 @@ Report bugs and issues to: support@payin7.com.</notes>
             <max/>
          </max>
          <files>
-            <files>           </files>
-            <files>           </files>
+            <files>            </files>
+            <files>            </files>
          </files>
       </package>
       <extension>
@@ -178,8 +178,4 @@ Report bugs and issues to: support@payin7.com.</notes>
          <ignore/>
       </ignore>
    </contents>
-   <page>1</page>
-   <limit>200</limit>
-   <folder/>
-   <package/>
 </_>

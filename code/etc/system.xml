@@ -207,7 +207,7 @@
                     </fields>
                 </payin7payment7days>
                 <payin7paymentinstallments translate="label" module="payin7payments">
-                    <label>PAYIN7 / Pay with monthly installments</label>
+                    <label>PAYIN7 / Finance Payment</label>
                     <sort_order>905</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
