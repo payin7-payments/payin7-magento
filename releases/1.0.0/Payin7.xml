@@ -1,19 +1,47 @@
 <_>
-   <form_key>4SksLjDOS8es8tTH</form_key>
+   <form_key>zHHfB2gFqfHCtiOi</form_key>
    <name>Payin7_Payments</name>
    <channel>community</channel>
    <version_ids>
       <version_ids>2</version_ids>
    </version_ids>
-   <summary>The official magento plugin of the Payin7 payments service gateway (http://www.payin7.com)</summary>
-   <description>Payin7 discovers to your clients the possibility of delaying payment 7 days so they can check their purchase before they pay it or to finance their purchases in easy installments.
+   <summary>Payin7 offers the clients the opportunity of choosing between two products: Pay in 7 days or Finance Payment (http://www.payin7.com)
 
-If you are a buyer you can effortlessly acquire what you want or even a better item than what you previusly want.
+----
 
-If you are a store you will offer an attractive alternative payment to your customers so they have bigger margen to think about payment.</description>
+Payin7 ofrece a los clientes la oportunidad de elegir entre dos productos: Pago en 7 días o Pago financiado</summary>
+   <description>PAYIN7 offers the clients the opportunity of choosing between two forms of payment:
+
+1. PAYMENT IN 7 DAYS allows clients to pay after they have received their products. 
+2. FINANCE PAYMENT clients can pay for their products with downpayments - from 2 to 6 installments.
+
+- NO NEED TO USE  A CREDIT CARD - The clients can choose not to use their credit card which gives a greater confidence in payment.
+- ACCESS TO EXPENSIVE PRODUCTS - Clients may purchase products which otherwise they could not afford. Wide range of products at their choice.
+- GIFTS TO YOUR CLIENTS FOR FINANCING – Using gamification and other promotions and offer them to the clients who use our products.
+- QUICK AND EASY INTEGRATION – Starting up with our platform is fast – only a few minutes are necessary.
+- COMPATIBLE WITH OTHER PAYMENT METHODS – You can keep using paypal, credit card or any other payment system.
+- SALES PROMOTIONS - Use the possibility of financing as a marketing tool.
+- DIFFERENTIATE FROM YOUR COMPETITORS – Always be one step ahead of your competitors.
+- ACCESS TO NEW CLIENTS - A wider range of customers will pay for more expensive products.
+
+----
+
+PAYIN7 ofrece a sus clientes la financiación de sus ventas a través de dos productos de pago:
+
+1. Con PAGO EN 7 DIAS el cliente podrá pagar una vez recibida la mercancía. 
+2. Con PAGO FINANCIADO el cliente final divide sus pagos entre 2 y 6 cuotas.
+
+- SIN NECESIDAD DE USAR UNA TARJETA DE CREDITO – El cliente final puede optar a usar o no su tarjeta de crédito en sus compras.  Dándole mayor confianza en el pago.
+- ACESSO A PRODUCTOS ANTES NO ASUMIBLES – Tu cliente podrá adquirir productos que de otra manera no podrían asumir.  Amplia la gama de productos a su alcance.
+- REGALOS PARA TUS CLIENTES POR FINANCIARSE – Realizamos sorteos entre tus clientes lo cual aumentará tus ventas. 
+- INTEGRACION SENCILLA Y RAPIDA – En pocos minutos podrás empezar a operar con nosotros. 
+- COMPATIBLE CON OTROS METODOS DE PAGO – Compatible con paypal, VISA o cualquier otro sistema de pago. 
+- PROMOCIONES QUE BENEFICIAN LAS VENTAS DE LOS ECOMMERCE – Usa la posibilidad de financiar como herramienta de marketing. 
+- DIFERENCIACION CON LA COMPETENCIA – Ve un paso por delante de tus competidores. 
+- ACESSO A NUEVOS CLIENTES – La posibilidad de financiar abre tu ecommerce a nuevos clientes. Un mayor rango de clientes van a pagar por tus productos más costosos.</description>
    <license>GNU General Public License (GPL)</license>
    <license_uri>http://www.gnu.org/licenses/gpl-3.0.en.html</license_uri>
-   <version>1.0.0</version>
+   <version>1.0.0.0</version>
    <stability>stable</stability>
    <notes>First release of the extension.
 
@@ -55,8 +83,8 @@ Report bugs and issues to: support@payin7.com.</notes>
             <max/>
          </max>
          <files>
-            <files>            </files>
-            <files>            </files>
+            <files>                      </files>
+            <files>                      </files>
          </files>
       </package>
       <extension>

@@ -30,12 +30,12 @@
         <reference name="head">
             <action method="addItem" ifconfig="payin7payments/developer/debugging_mode">
                 <type>skin_js</type>
-                <name>js/payin7/utils.js</name>
+                <name>js/payin7/utils-1454763381000.min.js</name>
             </action>
             
             <action method="addItem">
                 <type>skin_css</type>
-                <name>css/payin7/payin7.css</name>
+                <name>css/payin7/payin7-1456830159000.min.css</name>
             </action>
         </reference>
     </default>

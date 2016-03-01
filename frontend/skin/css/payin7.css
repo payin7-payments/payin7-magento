@@ -35,7 +35,7 @@
 }
 
 .payin7.checkout-option .checkout-img {
-    height: 50px;
+    width: 100px;
     vertical-align: top;
     display: inline-block;
 }

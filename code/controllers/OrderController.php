@@ -1,4 +1,5 @@
 <?php
+
 /**
  * 2015-2016 Copyright (C) Payin7 S.L.
  *
@@ -23,7 +24,6 @@
  * @copyright 2015-2016 Payin7 S.L.
  * @license   http://opensource.org/licenses/GPL-3.0 GNU General Public License, version 3 (GPL-3.0)
  */
-
 class Payin7_Payments_OrderController extends Mage_Core_Controller_Front_Action
 {
     public function finalAction()
@@ -55,6 +55,11 @@ class Payin7_Payments_OrderController extends Mage_Core_Controller_Front_Action
         }
     }
 
+    protected function verifyHashCheck(array $order_data, $hash_check)
+    {
+        return ($hash_check && $order_data && $hash_check == sha1(implode('', $order_data)));
+    }
+
     protected function getVerifyOrder()
     {
         $request = $this->getRequest();
@@ -62,7 +67,15 @@ class Payin7_Payments_OrderController extends Mage_Core_Controller_Front_Action
         $req_order_id = $request->get('order_id');
         $req_secure_key = $request->get('secure_key');
 
-        $is_saved_order = $request->get('saved_order');
+        $order_verified = $request->get('verified');
+        $order_rejected = $request->get('rejected');
+        $order_cancelled = $request->get('cancelled');
+        $order_paid = $request->get('paid');
+        $order_state = $request->get('state');
+
+        $verify_hash = $request->get('hash');
+
+        $is_saved_order = (bool)$request->get('saved_order');
         $is_checkout = !$is_saved_order;
 
         if (!$is_checkout && !$request->isPost()) {
@@ -95,6 +108,25 @@ class Payin7_Payments_OrderController extends Mage_Core_Controller_Front_Action
             return null;
         }
 
+        // validate the hash
+        if (!$is_saved_order) {
+            $order_api_key = $phelper->getApiKeyForOrder($order);
+
+            if (!$this->verifyHashCheck(array(
+                $req_secure_key,
+                $req_order_id,
+                (int)$order_verified,
+                (int)$order_rejected,
+                (int)$order_cancelled,
+                (int)$order_paid,
+                $order_state,
+                $order_api_key
+            ), $verify_hash)
+            ) {
+                return null;
+            }
+        }
+
         // verify if the order is really a payin7 order
         $payment = $order->getPayment();
         $payment_method = $payment->getMethodInstance();
@@ -113,6 +145,13 @@ class Payin7_Payments_OrderController extends Mage_Core_Controller_Front_Action
         $is_saved_order = $request->get('saved_order');
         $is_checkout = !$is_saved_order;
 
+        $order_verified = $request->get('verified');
+        $order_paid = $request->get('paid');
+
+        if (!$is_saved_order && !$request->isPost()) {
+            $this->redirectErr($is_checkout);
+        }
+
         if (!$order = $this->getVerifyOrder()) {
             $this->redirectErr($is_checkout);
         }
@@ -124,47 +163,37 @@ class Payin7_Payments_OrderController extends Mage_Core_Controller_Front_Action
             /** @var Mage_Checkout_Model_Type_Onepage $onepage */
             $onepage = Mage::getSingleton('checkout/type_onepage');
             $session = $onepage->getCheckout();
-
-            /** @noinspection PhpUndefinedMethodInspection */
-            if (!$session->getLastSuccessQuoteId()) {
-                $this->redirectErr($is_checkout);
-                return;
-            }
-
-            /** @noinspection PhpUndefinedMethodInspection */
-            $lastQuoteId = $session->getLastQuoteId();
-            /** @noinspection PhpUndefinedMethodInspection */
-            $lastOrderId = $session->getLastOrderId();
-
-            if (!$lastQuoteId || (!$lastOrderId && empty($lastRecurringProfiles))) {
-                $this->redirectErr($is_checkout);
-                return;
-            }
         }
 
-        if (!$order->getData('payin7_order_accepted')) {
-            // inform
-            Mage::dispatchEvent('payin7_order_complete_before', array('order' => $order));
+        if ($order_verified && $order_paid) {
+            if (!$order->getData('payin7_order_accepted')) {
+                // inform
+                Mage::dispatchEvent('payin7_order_complete_before', array('order' => $order));
 
-            // mark as order accepted
-            $order->setData('payin7_order_accepted', true);
+                // mark as order accepted
+                $order->setData('payin7_order_accepted', true);
 
-            // set it to processing
-            $order->setData('state', Mage_Sales_Model_Order::STATE_PROCESSING);
-            $order->setStatus(Mage_Sales_Model_Order::STATE_PROCESSING);
-            $history = $order->addStatusHistoryComment('Order fully completed by customer', false);
-            /** @noinspection PhpUndefinedMethodInspection */
-            $history->setIsCustomerNotified(false);
+                // set it to processing
+                $order->setData('state', Mage_Sales_Model_Order::STATE_PROCESSING);
+                $order->setStatus(Mage_Sales_Model_Order::STATE_PROCESSING);
+                $history = $order->addStatusHistoryComment('Order fully completed by customer', false);
+                /** @noinspection PhpUndefinedMethodInspection */
+                $history->setIsCustomerNotified(false);
 
-            $order->save();
+                $order->save();
 
-            // inform
-            Mage::dispatchEvent('payin7_order_complete_after', array('order' => $order));
+                // inform
+                Mage::dispatchEvent('payin7_order_complete_after', array('order' => $order));
+            }
         }
 
         if ($is_checkout) {
             $this->loadLayout();
-            $session->clear();
+
+            if ($session) {
+                $session->clear();
+            }
+
             $this->_initLayoutMessages('checkout/session');
             Mage::dispatchEvent('checkout_onepage_controller_success_action', array('order_ids' => array($lastOrderId)));
             $this->renderLayout();
@@ -177,7 +206,12 @@ class Payin7_Payments_OrderController extends Mage_Core_Controller_Front_Action
     {
         $request = $this->getRequest();
         $is_saved_order = $request->get('saved_order');
+        $order_rejected = $request->get('rejected');
         $is_checkout = !$is_saved_order;
+
+        if (!$is_saved_order && !$request->isPost()) {
+            $this->redirectErr($is_checkout);
+        }
 
         if (!$order = $this->getVerifyOrder()) {
             $this->redirectErr($is_checkout);
@@ -185,6 +219,11 @@ class Payin7_Payments_OrderController extends Mage_Core_Controller_Front_Action
 
         /** @var Payin7_Payments_Helper_Data $phelper */
         $phelper = Mage::helper('payin7payments');
+
+        // if rejected flag has been set - set the permanent reject cookie
+        if ($order_rejected) {
+            $phelper->setRejectVerificationCookie(true);
+        }
 
         if ($order->canUnhold() || $order->canCancel()) {
             $phelper->getLogger()->logInfo('Cancelling order: ' . $order->getData('payin7_order_identifier'));

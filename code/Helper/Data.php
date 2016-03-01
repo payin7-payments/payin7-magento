@@ -39,6 +39,9 @@ class Payin7_Payments_Helper_Data extends Mage_Checkout_Helper_Data
     const SERVICE_RES = 4;
     const SERVICE_JSAPI = 5;
 
+    const REJECT_COOKIE_NAME = 'p7rjs';
+    const REJECT_COOKIE_LIFETIME = 3600 * 24 * 90; // 90 days
+
     private $_service_subdomains = array(
         self::SERVICE_API => 'api',
         self::SERVICE_BACKEND => 'clients',
@@ -181,6 +184,22 @@ class Payin7_Payments_Helper_Data extends Mage_Checkout_Helper_Data
         }
     }
 
+    public function setRejectVerificationCookie($set = true)
+    {
+        $this->getLogger()->logInfo('Setting reject verification cookie: ' . ($set ? 'SET' : 'RESET'));
+
+        /** @var Mage_Core_Model_Cookie $cookie_model */
+        $cookie_model = Mage::getModel('core/cookie');
+        $cookie_model->set(self::REJECT_COOKIE_NAME, true, self::REJECT_COOKIE_LIFETIME, '/');
+    }
+
+    public function isRejectVerificationCookieSet()
+    {
+        /** @var Mage_Core_Model_Cookie $cookie_model */
+        $cookie_model = Mage::getModel('core/cookie');
+        return (bool)$cookie_model->get(self::REJECT_COOKIE_NAME);
+    }
+
     public function getVersion()
     {
         /** @noinspection PhpUndefinedFieldInspection */
@@ -200,16 +219,22 @@ class Payin7_Payments_Helper_Data extends Mage_Checkout_Helper_Data
         return $this->getServiceUrl(self::SERVICE_BACKEND, '/orders/view/' . $identifier, null, $secure, false, $sandbox_order);
     }
 
-    public function verifyOrderSecureKey(Mage_Sales_Model_Order $order, $secure_key)
+    public function getApiKeyForOrder(Mage_Sales_Model_Order $order)
     {
         $is_sandbox_order = (bool)$order->getData('payin7_sandbox_order');
         $api_key = $is_sandbox_order ? $this->getApiSandboxKey() : $this->getApiProductionKey();
+        return $api_key;
+    }
+
+    public function verifyOrderSecureKey(Mage_Sales_Model_Order $order, $secure_key)
+    {
+        $api_key = $this->getApiKeyForOrder($order);
         $secure_key_match = sha1(sha1($order->getData('payin7_order_identifier') . $api_key) . $api_key);
         $matched = ($secure_key == $secure_key_match);
         return $matched;
     }
 
-    public function getFrontendOrderCompleteUrl(Mage_Sales_Model_Order $order, $is_saved_order = false, $secure = null)
+    public function getFrontendOrderCompleteUrl(Mage_Sales_Model_Order $order, $is_saved_order = false, $secure = null, $canclose = true)
     {
         $identifier = $order->getData('payin7_order_identifier');
         $access_token = $order->getData('payin7_access_token');
@@ -223,7 +248,8 @@ class Payin7_Payments_Helper_Data extends Mage_Checkout_Helper_Data
         return $this->getServiceUrl(self::SERVICE_FRONTEND, '/orders/complete/' . urlencode($identifier),
             array(
                 'ac' => $this->getEncryptedOrderKey($access_token),
-                'saved_order' => $is_saved_order
+                'saved_order' => $is_saved_order,
+                'canclose' => (int)$canclose
             ), $secure, false, $sandbox_order);
     }
 

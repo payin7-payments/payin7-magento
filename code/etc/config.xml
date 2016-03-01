@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Payin7_Payments>
-            <version>1.0.0</version>
+            <version>1.0.0.0</version>
         </Payin7_Payments>
     </modules>
 
@@ -242,13 +242,13 @@
             <payin7payment7days>
                 <active>1</active>
                 <model>payin7payments/payin7daysPaymentMethod</model>
-                <title>Pay in 7 days</title>
+                <title>Pago en 7 días</title>
                 <payment_action>order</payment_action>
                 <order_status>payin7_pending</order_status>
             </payin7payment7days>
             <payin7paymentinstallments>
                 <active>1</active>
-                <title>Finance Payment</title>
+                <title>Pago Financiado</title>
                 <model>payin7payments/monthlyInstallmentsPaymentMethod</model>
                 <payment_action>order</payment_action>
                 <order_status>payin7_pending</order_status>

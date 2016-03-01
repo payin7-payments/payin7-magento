@@ -85,6 +85,14 @@ class Payin7_Payments_Model_Payin7daysPaymentMethod extends Mage_Payment_Model_M
             return false;
         }
 
+        /** @var Payin7_Payments_Helper_Data $phelper */
+        $phelper = Mage::helper('payin7payments');
+
+        // check for a reject cookie
+        if ($phelper->isRejectVerificationCookieSet()) {
+            return false;
+        }
+
         if ($quote) {
             // validate the platform constraints
 

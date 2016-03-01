@@ -34,27 +34,36 @@ $order_collection_resource = Mage::getResourceModel('sales/order_collection');
 // payin7_order_sent
 $installer->getConnection()->addColumn($order_collection_resource->getTable('order'), 'payin7_order_sent', 'TINYINT(4) NOT NULL default 0');
 
-// custom statuses
-$connection = $installer->getConnection()->insertArray(
-    $installer->getTable('sales/order_status'),
-    array('status', 'label'),
-    array(
-        array('payin7_pending', 'Payin7 Pending Order'),
-        array('payin7_accepted', 'Payin7 Accepted Order'),
-        array('payin7_rejected', 'Payin7 Rejected Order')
-    )
-);
 
 // assign default order statuses
-Mage::getModel('sales/order_status')
-    ->load('payin7_pending')
-    ->assignState(Mage_Sales_Model_Order::STATE_HOLDED, '0');
-Mage::getModel('sales/order_status')
-    ->load('payin7_accepted')
-    ->assignState(Mage_Sales_Model_Order::STATE_PROCESSING, '0');
-Mage::getModel('sales/order_status')
-    ->load('payin7_rejected')
-    ->assignState(Mage_Sales_Model_Order::STATE_CANCELED, '0');
+$statuses = Mage::getModel('sales/order_status')->getCollection()->addFieldToFilter('status', 'payin7_pending');
+
+/** @noinspection PhpUndefinedMethodInspection */
+if (0 == $statuses->count()) {
+// custom statuses
+    $connection = $installer->getConnection()->insertArray(
+        $installer->getTable('sales/order_status'),
+        array('status', 'label'),
+        array(
+            array('payin7_pending', 'Payin7 Pending Order'),
+            array('payin7_accepted', 'Payin7 Accepted Order'),
+            array('payin7_rejected', 'Payin7 Rejected Order')
+        )
+    );
+
+    /** @noinspection PhpUndefinedMethodInspection */
+    Mage::getModel('sales/order_status')
+        ->load('payin7_pending')
+        ->assignState(Mage_Sales_Model_Order::STATE_HOLDED, '0');
+    /** @noinspection PhpUndefinedMethodInspection */
+    Mage::getModel('sales/order_status')
+        ->load('payin7_accepted')
+        ->assignState(Mage_Sales_Model_Order::STATE_PROCESSING, '0');
+    /** @noinspection PhpUndefinedMethodInspection */
+    Mage::getModel('sales/order_status')
+        ->load('payin7_rejected')
+        ->assignState(Mage_Sales_Model_Order::STATE_CANCELED, '0');
+}
 
 // payin7_data
 $installer->run("
@@ -93,7 +102,8 @@ $installer->getConnection()->addColumn($order_collection_resource->getTable('ord
 $installer->getConnection()->addColumn($order_collection_resource->getTable('order'), 'payin7_sandbox_order', 'TINYINT(4) NOT NULL DEFAULT \'0\'');
 
 // IDX_SALES_FLAT_ORDER_PAYIN7_ORDER_IDENTIFIER
-$installer->run("ALTER TABLE `" . $order_collection_resource->getTable('order') . "` ADD INDEX `IDX_SALES_FLAT_ORDER_PAYIN7_ORDER_IDENTIFIER` (`payin7_order_identifier`)");
+//$installer->run("ALTER TABLE `" . $order_collection_resource->getTable('order') . "` ADD INDEX IF NOT EXISTS `IDX_SALES_FLAT_ORDER_PAYIN7_ORDER_IDENTIFIER` (`payin7_order_identifier`)");
+$installer->getConnection()->addIndex($order_collection_resource->getTable('order'), 'IDX_SALES_FLAT_ORDER_PAYIN7_ORDER_IDENTIFIER', 'payin7_order_identifier');
 
 // payin7_order_sent
 $installer->getConnection()->addColumn($order_collection_resource->getTable('order'), 'payin7_access_token', 'VARCHAR(255)');
