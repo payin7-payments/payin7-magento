@@ -1,5 +1,5 @@
 <_>
-   <form_key>zHHfB2gFqfHCtiOi</form_key>
+   <form_key>tYrbwRhPQfSujwPA</form_key>
    <name>Payin7_Payments</name>
    <channel>community</channel>
    <version_ids>
@@ -51,15 +51,15 @@ Report bugs and issues to: support@payin7.com.</notes>
    <authors>
       <name>
          <name>Payin7.com</name>
-         <name>Martin Kovachev</name>
+         <name>Nimasystems Ltd</name>
       </name>
       <user>
          <user>payin7</user>
-         <user>mkovachev</user>
+         <user>nimasystems</user>
       </user>
       <email>
          <email>info@payin7.com</email>
-         <email>miracle@nimasystems.com</email>
+         <email>info@nimasystems.com</email>
       </email>
    </authors>
    <depends_php_min>5.4.6</depends_php_min>
@@ -83,8 +83,8 @@ Report bugs and issues to: support@payin7.com.</notes>
             <max/>
          </max>
          <files>
-            <files>                      </files>
-            <files>                      </files>
+            <files>                            </files>
+            <files>                            </files>
          </files>
       </package>
       <extension>
