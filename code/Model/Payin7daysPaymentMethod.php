@@ -116,8 +116,15 @@ class Payin7_Payments_Model_Payin7daysPaymentMethod extends Mage_Payment_Model_M
             $remote_platform_config->loadData();
 
             // check if the platform constraints are met
-
             $payment_method_cfg = $remote_platform_config->getPaymentMethodConfig($remote_method_code);
+
+            $is_customer_disabled = isset($payment_method_cfg['is_disabled']) ?
+                (bool)$payment_method_cfg['is_disabled'] :
+                null;
+
+            if ($is_customer_disabled) {
+                return false;
+            }
 
             $min_order_allowed_platform = isset($payment_method_cfg['minimum_amount']) ?
                 (double)$payment_method_cfg['minimum_amount'] :

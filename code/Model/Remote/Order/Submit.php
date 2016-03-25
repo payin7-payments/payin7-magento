@@ -97,9 +97,14 @@ class Payin7_Payments_Model_Remote_Order_Submit extends Mage_Core_Model_Abstract
      */
     protected function _prepareOrderData()
     {
+        // magento 1.5 compat
+        $shipping_method_c = $this->_order->getShippingMethod(true);
+        $shipping_method = $this->_order->getData('shipping_method');
+        $shipping_method_code = ($shipping_method_c ? $shipping_method_c->getData('carrier_code') : $shipping_method);
+
         $data = array_filter(array(
             'currency_code' => $this->_order->getOrderCurrencyCode(),
-            'shipping_method_code' => $this->_order->getShippingMethod(true)->getData('carrier_code'),
+            'shipping_method_code' => $shipping_method_code,
             'shipping_method_title' => $this->_order->getShippingDescription(),
             'created_on' => $this->_order->getCreatedAt(),
             'updated_on' => $this->_order->getUpdatedAt(),

@@ -102,8 +102,12 @@ $installer->getConnection()->addColumn($order_collection_resource->getTable('ord
 $installer->getConnection()->addColumn($order_collection_resource->getTable('order'), 'payin7_sandbox_order', 'TINYINT(4) NOT NULL DEFAULT \'0\'');
 
 // IDX_SALES_FLAT_ORDER_PAYIN7_ORDER_IDENTIFIER
-//$installer->run("ALTER TABLE `" . $order_collection_resource->getTable('order') . "` ADD INDEX IF NOT EXISTS `IDX_SALES_FLAT_ORDER_PAYIN7_ORDER_IDENTIFIER` (`payin7_order_identifier`)");
-$installer->getConnection()->addIndex($order_collection_resource->getTable('order'), 'IDX_SALES_FLAT_ORDER_PAYIN7_ORDER_IDENTIFIER', 'payin7_order_identifier');
+// magento 1.5 compatibility
+if (method_exists($installer->getConnection(), 'addIndex')) {
+    $installer->getConnection()->addIndex($order_collection_resource->getTable('order'), 'IDX_SALES_FLAT_ORDER_PAYIN7_ORDER_IDENTIFIER', 'payin7_order_identifier');
+} else {
+    $installer->run("ALTER TABLE `" . $order_collection_resource->getTable('order') . "` ADD INDEX `IDX_SALES_FLAT_ORDER_PAYIN7_ORDER_IDENTIFIER` (`payin7_order_identifier`)");
+}
 
 // payin7_order_sent
 $installer->getConnection()->addColumn($order_collection_resource->getTable('order'), 'payin7_access_token', 'VARCHAR(255)');
